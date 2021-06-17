@@ -8,9 +8,20 @@ COPY	./srcs/start.sh /tmp
 
 #nginx
 RUN	apt-get install -y nginx && \
+	rm /etc/nginx/sites-available/default && \
 	rm /etc/nginx/sites-enabled/default
-COPY	./srcs/default_nginx /etc/nginx/sites-enabled
-COPY	./srcs/ssl/ /etc/nginx/ssl/
+COPY	./srcs/wordpress.conf /etc/nginx/sites-available
+RUN	ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/
+
+#SSL
+RUN	mkdir /etc/nginx/ssl && \
+	openssl genrsa -out /etc/nginx/ssl/server.key 2048 && \
+	openssl req -new -key /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.csr -subj "/C=JP" && \
+	openssl x509 \
+ 	-req \
+ 	-in /etc/nginx/ssl/server.csr \
+ 	-days 36500 \
+ 	-signkey /etc/nginx/ssl/server.key > /etc/nginx/ssl/server.crt
 
 #mariadb
 COPY	./srcs/init_sql.sh /tmp
@@ -32,4 +43,4 @@ RUN	cd /var/www/html/ && \
 	chown -R www-data:www-data /var/www/html/phpmyadmin
 COPY	./srcs/config.inc.php /var/www/html/phpmyadmin
 
-CMD	bash /tmp/run.sh
+CMD	bash /tmp/start.sh
