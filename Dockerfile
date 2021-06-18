@@ -1,32 +1,37 @@
 FROM	debian:buster
 
-RUN	apt-get update -y && \
-	apt-get upgrade -y && \
-	apt-get install -y vim wget apt-utils php php-fpm php-curl php-mbstring php-mysql php-xml php-zip
+RUN	apt-get update && \
+	apt-get install -y \
+	wget \
+	php \
+	php-fpm \
+	php-curl \
+	php-mbstring \
+	php-mysql \
+	php-xml \
+	php-zip \
+	nginx \
+	mariadb-server && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
 
 COPY	./srcs/start.sh /tmp
+COPY	./srcs/wordpress.conf /etc/nginx/sites-available
 
 #nginx
-RUN	apt-get install -y nginx && \
-	rm /etc/nginx/sites-available/default && \
-	rm /etc/nginx/sites-enabled/default
-COPY	./srcs/wordpress.conf /etc/nginx/sites-available
-RUN	ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/
+RUN	rm /etc/nginx/sites-available/default && \
+	rm /etc/nginx/sites-enabled/default && \
+	ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/
 
-#SSL
+#ssl
 RUN	mkdir /etc/nginx/ssl && \
 	openssl genrsa -out /etc/nginx/ssl/server.key 2048 && \
 	openssl req -new -key /etc/nginx/ssl/server.key -out /etc/nginx/ssl/server.csr -subj "/C=JP" && \
 	openssl x509 \
- 	-req \
- 	-in /etc/nginx/ssl/server.csr \
- 	-days 36500 \
- 	-signkey /etc/nginx/ssl/server.key > /etc/nginx/ssl/server.crt
-
-#mariadb
-COPY	./srcs/init_sql.sh /tmp
-RUN	apt-get install -y mariadb-server && \
-	bash /tmp/init_sql.sh
+	-req \
+	-in /etc/nginx/ssl/server.csr \
+	-days 36500 \
+	-signkey /etc/nginx/ssl/server.key > /etc/nginx/ssl/server.crt
 
 #wordpress
 RUN	cd /var/www/html/ && \
@@ -44,3 +49,5 @@ RUN	cd /var/www/html/ && \
 COPY	./srcs/config.inc.php /var/www/html/phpmyadmin
 
 CMD	bash /tmp/start.sh
+
+EXPOSE	80 443
