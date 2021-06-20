@@ -18,7 +18,7 @@ RUN	apt-get update && \
 COPY	./srcs/start.sh /tmp
 COPY	./srcs/wp-config.php /tmp
 COPY	./srcs/config.inc.php /tmp
-COPY	./srcs/wordpress.conf /etc/nginx/sites-available
+COPY	./srcs/nginx.conf /etc/nginx/sites-available
 
 CMD	bash /tmp/start.sh
 
