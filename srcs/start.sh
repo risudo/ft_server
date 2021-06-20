@@ -8,7 +8,7 @@ echo "FLUSH PRIVILEGES;" | mysql -u root --skip-password
 #nginx
 rm /etc/nginx/sites-available/default
 rm /etc/nginx/sites-enabled/default
-ln -s /etc/nginx/sites-available/wordpress.conf /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
 
 #ssl
 mkdir /etc/nginx/ssl
@@ -24,6 +24,7 @@ openssl x509 \
 cd /var/www/html/
 wget https://wordpress.org/latest.tar.gz
 tar -xvzf latest.tar.gz
+rm latest.tar.gz
 chown -R www-data:www-data /var/www/html/wordpress
 mv /tmp/wp-config.php /var/www/html/wordpress
 
@@ -31,6 +32,7 @@ mv /tmp/wp-config.php /var/www/html/wordpress
 cd /var/www/html/
 wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz
 tar xvf phpMyAdmin-5.0.4-all-languages.tar.gz
+rm phpMyAdmin-5.0.4-all-languages.tar.gz
 mv phpMyAdmin-5.0.4-all-languages phpmyadmin
 chown -R www-data:www-data /var/www/html/phpmyadmin
 mv /tmp/config.inc.php /var/www/html/phpmyadmin
