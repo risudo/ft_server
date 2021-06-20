@@ -40,7 +40,7 @@ mv /tmp/config.inc.php /var/www/html/phpmyadmin
 #autoindex
 if test "$AUTOINDEX" = "off"
 then
-	sed -i -e 's/autoindex on/autoindex off/g' /etc/nginx/sites-available/wordpress.conf
+	sed -i -e 's/autoindex on/autoindex off/g' /etc/nginx/sites-available/nginx.conf
 fi
 
 #service start
