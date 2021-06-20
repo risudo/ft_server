@@ -20,6 +20,6 @@ COPY	./srcs/wp-config.php /tmp
 COPY	./srcs/config.inc.php /tmp
 COPY	./srcs/nginx.conf /etc/nginx/sites-available
 
-CMD	bash /tmp/start.sh
-
 EXPOSE	80 443
+
+CMD	bash /tmp/start.sh
