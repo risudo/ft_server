@@ -25,8 +25,8 @@ cd /var/www/html/
 wget https://wordpress.org/latest.tar.gz
 tar -xvzf latest.tar.gz
 rm latest.tar.gz
-chown -R www-data:www-data /var/www/html/wordpress
 mv /tmp/wp-config.php /var/www/html/wordpress
+chown -R www-data:www-data /var/www/html/wordpress
 
 #phpmyadmin
 cd /var/www/html/
@@ -34,8 +34,8 @@ wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-language
 tar xvf phpMyAdmin-5.0.4-all-languages.tar.gz
 rm phpMyAdmin-5.0.4-all-languages.tar.gz
 mv phpMyAdmin-5.0.4-all-languages phpmyadmin
-chown -R www-data:www-data /var/www/html/phpmyadmin
 mv /tmp/config.inc.php /var/www/html/phpmyadmin
+chown -R www-data:www-data /var/www/html/phpmyadmin
 
 #autoindex
 if test "$AUTOINDEX" = "off"
