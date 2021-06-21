@@ -22,4 +22,4 @@ COPY	./srcs/nginx.conf /etc/nginx/sites-available
 
 EXPOSE	80 443
 
-CMD	bash /tmp/start.sh
+ENTRYPOINT	/tmp/start.sh
